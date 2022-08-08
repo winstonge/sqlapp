@@ -3,19 +3,22 @@ using System.Data.SqlClient;
 
 namespace sqlapp.Services
 {
-    public class ProductService : IProductService
+    public class ProductService
     {
+        private static string db_source = "appserver2022we.database.windows.net";
+        private static string db_user = "sqladmin";
+        private static string db_password = "W1tuP-l2#WUswlf_@E_l";
+        private static string db_database = "appdb";
 
-        private readonly IConfiguration _configuration;
 
-        ProductService(IConfiguration configuration)
+        private  SqlConnection  GetConnection()
         {
-            _configuration = configuration;
-        }
-
-        private SqlConnection GetConnection()
-        {
-            return new SqlConnection(_configuration.GetConnectionString("SQlConnection"));
+           var _builder = new SqlConnectionStringBuilder();
+            _builder.DataSource = db_source;
+            _builder.UserID = db_user;
+            _builder.Password = db_password;
+            _builder.InitialCatalog= db_database;
+            return new SqlConnection(_builder.ConnectionString);
 
         }
 
@@ -23,13 +26,13 @@ namespace sqlapp.Services
         public List<Product> GetProducts()
         {
             SqlConnection conn = GetConnection();
-            List<Product> _product_list = new List<Product>();
+            List<Product> _product_list= new List<Product>();
 
-            string statement = "Select ProductID, ProductName, Quantity from products";
+            string statement="Select ProductID, ProductName, Quantity from products";
 
             conn.Open();
             SqlCommand cmd = new SqlCommand(statement, conn);
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            using(SqlDataReader reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
                 {
