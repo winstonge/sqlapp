@@ -14,7 +14,7 @@ namespace sqlapp.Pages
 
         public IndexModel(IProductService productService)
         {
-            _productService = productService;
+            _productService = productService;  
         }
 
         public void OnGet()
