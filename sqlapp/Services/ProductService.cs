@@ -1,5 +1,6 @@
 ﻿using sqlapp.Models;
 using System.Data.SqlClient;
+using System.Text.Json;
 
 namespace sqlapp.Services
 {
@@ -44,5 +45,21 @@ namespace sqlapp.Services
 
         }
 
+
+        public async Task<List<Product>> GetProductsByFunc()
+        {
+            String FunctionURL = "https://appfunction2022w.azurewebsites.net/api/GetProducts?code=x0FRbJBBT8-yQCICxEhV8uIT3sd8jUZZFAwHbs_Ee5mlAzFuIYGadw==";
+            using(HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync(FunctionURL);
+                string content = await response.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<List<Product>>(content);
+            }
+        }
+
+        Task<List<Product>> IProductService.GetProducts()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

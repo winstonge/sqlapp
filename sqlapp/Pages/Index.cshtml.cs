@@ -17,7 +17,7 @@ namespace sqlapp.Pages
         public List<Product> Products;
         public void OnGet()
         {
-            Products = _productService.GetProducts();
+            Products = _productService.GetProducts().GetAwaiter().GetResult();
 
         }
     }
