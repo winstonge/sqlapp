@@ -18,7 +18,7 @@ namespace sqlapp.Services
             return new SqlConnection(_configuration["SQLConnection"]);
         }
 
-        public List<Product> GetProducts()
+        public List<Product> GetProductsOrig()
         {
             SqlConnection conn = GetConnection();
             List<Product> _product_list = new List<Product>();
@@ -46,10 +46,10 @@ namespace sqlapp.Services
         }
 
 
-        public async Task<List<Product>> GetProductsByFunc()
+        public async Task<List<Product>> GetProducts()
         {
             String FunctionURL = "https://appfunction2022w.azurewebsites.net/api/GetProducts?code=x0FRbJBBT8-yQCICxEhV8uIT3sd8jUZZFAwHbs_Ee5mlAzFuIYGadw==";
-            using(HttpClient client = new HttpClient())
+            using (HttpClient client = new HttpClient())
             {
                 HttpResponseMessage response = await client.GetAsync(FunctionURL);
                 string content = await response.Content.ReadAsStringAsync();
@@ -57,9 +57,5 @@ namespace sqlapp.Services
             }
         }
 
-        Task<List<Product>> IProductService.GetProducts()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
